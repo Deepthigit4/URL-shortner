@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+</head>
+<body>
+    <h1>URL Shortener</h1>
+    <div id="shorten-form">
+        <label for="original-url">Enter the URL to shorten:</label>
+        <input type="url" id="original-url" placeholder="https://example.com" required>
+        <button id="shorten-button">Shorten</button>
+    </div>
+    <div id="shortened-url" style="display:none;">
+        <p>Shortened URL:</p>
+        <a id="short-link" href="#" target="_blank"></a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const shortenForm = document.getElementById('shorten-form');
+            const originalUrlInput = document.getElementById('original-url');
+            const shortenButton = document.getElementById('shorten-button');
+            const shortenedUrlDiv = document.getElementById('shortened-url');
+            const shortLink = document.getElementById('short-link');
+
+            shortenButton.addEventListener('click', () => {
+                const originalUrl = originalUrlInput.value;
+
+                // Send the original URL to the backend for shortening.
+                // You would need to implement this part on your backend.
+
+                // For this example, let's assume the backend returns a JSON response with the shortened URL.
+                // Replace the following line with your actual backend URL.
+                const backendUrl = 'https://your-backend-url.com/shorten';
+
+                fetch(backendUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ originalUrl }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.shortenedUrl) {
+                        shortLink.href = data.shortenedUrl;
+                        shortLink.textContent = data.shortenedUrl;
+                        shortenedUrlDiv.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
